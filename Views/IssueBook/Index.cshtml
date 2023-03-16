@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    int role = Convert.ToInt32(Session["Role"]);
+    if (role == 1)
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<div class="row">
+    <div class="col-sm-4">
+        @using (Html.BeginForm("Save", "IssueBook", FormMethod.Post))
+        {
+            <div>
+                <h3>Issue Book</h3>
+            </div>
+            <div class="form-group">
+                <label>Member ID</label>
+                <input type="text" id="memid" name="memid" class="form-control" placeholder="Member ID" required />
+            </div>
+
+            <div class="form-group">
+                <label>Member Name</label>
+                <input type="text" id="mname" name="mname" class="form-control" placeholder="Member Name" required />
+            </div>
+
+            <div class="form-group">
+                <label>Book</label>
+                <select class="form-control" id="bookID" name="bookID" onchange="getISBN()">
+                    <option>Please Select</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Book ISBN Number</label>
+                <input type="text" id="ISBN_Number" name="ISBN_Number" class="form-control" placeholder="ISBN Number" required />
+            </div>
+
+            <div class="form-group">
+                <label>Issue Date</label>
+                <input type="date" id="issueDate" name="issueDate" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label>Return Date</label>
+                <input type="date" id="returnDate" name="returnDate" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+
+                <input type="submit" value="Save" class="btn btn-success" required />
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script>
+        getMid();
+        getBooks();
+        
+
+        function getMid() {
+
+            $("#memid").keyup(function (e) { 
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/IssueBook/GetMid?mid=' + $("#memid").val(),
+                    dataType: 'JSON',
+                    success: function (data) {
+                        $("#mname").val(data);
+                    }
+                });
+            })
+        }     
+            
+
+        function getISBN() {
+            
+                $.ajax({
+                    type: 'POST',
+                    url: '/IssueBook/GetISBN?name=' + $("#bookID :selected").text(),
+                    dataType: 'JSON',
+                    success: function (data) {
+                        console.log(data);
+                        $("#ISBN_Number").val(data);
+                    },
+                    error: function () {
+                        alert("ISBN not found");
+                    }
+                });
+            
+        }
+        
+        function getBooks() {
+            $.ajax({
+                type: 'GET',
+                url: '/IssueBook/GetBook',
+                dataType: 'JSON',
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $("#bookID").append($("<option />", {
+                            text: data[i].bokName                            
+                        }));
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText)
+                }
+            });
+        }
+    </script>
+}

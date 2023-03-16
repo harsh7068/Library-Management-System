@@ -1,0 +1,51 @@
+﻿@model Library_Management_System.Models.tblAuthor
+
+@{
+    ViewBag.Title = "Details";
+    int role = Convert.ToInt32(Session["Role"]);
+    if (role == 1)
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblAuthor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.authName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.authName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.authAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.authAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.authPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.authPhone)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.authID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

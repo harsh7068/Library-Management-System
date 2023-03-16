@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Library_Management_System.Models.tblPublisher>
+
+@{
+    ViewBag.Title = "Index";
+    int role = Convert.ToInt32(Session["Role"]);
+    if (role == 1)
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.pubName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pubAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pubPhone)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.pubName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pubAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pubPhone)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.pubId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.pubId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.pubId })
+        </td>
+    </tr>
+}
+
+</table>

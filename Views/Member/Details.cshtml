@@ -1,0 +1,51 @@
+﻿@model Library_Management_System.Models.tblMember
+
+@{
+    ViewBag.Title = "Details";
+    int role = Convert.ToInt32(Session["Role"]);
+    if (role == 1)
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblMember</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.memName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.memName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.memAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.memAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.memPhoen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.memPhoen)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.memID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

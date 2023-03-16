@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Library_Management_System.Models.tblBook>
+
+@{
+    ViewBag.Title = "Index";
+    int role = Convert.ToInt32(Session["Role"]);
+    if (role == 1)
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.bookName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bookContents)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bookPages)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ISBN_Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bookEdition)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblAuthor.authName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblCategory.catName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblPublisher.pubName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.bookName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bookContents)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bookPages)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ISBN_Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bookEdition)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblAuthor.authName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblCategory.catName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblPublisher.pubName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.bookID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.bookID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.bookID })
+        </td>
+    </tr>
+}
+
+</table>

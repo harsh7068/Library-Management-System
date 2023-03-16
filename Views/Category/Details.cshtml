@@ -1,0 +1,43 @@
+﻿@model Library_Management_System.Models.tblCategory
+
+@{
+    ViewBag.Title = "Details";
+    int role = Convert.ToInt32(Session["Role"]);
+    if (role == 1)
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblCategory</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.catName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.catName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.catStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.catStatus)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.catID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

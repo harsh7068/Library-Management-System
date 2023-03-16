@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    int role = Convert.ToInt32(Session["Role"]);
+    if (role == 1)
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>Index</h2>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-sm-4">
+        @using (Html.BeginForm("Save", "ReturnBook", FormMethod.Post))
+        {
+            <div>
+                <h3>Return Book</h3>
+            </div>
+            <div class="form-group">
+                <label>Member ID</label>
+                <input type="text" id="memid" name="memid" class="form-control" placeholder="Member ID" required />
+            </div>
+
+            <div class="form-group">
+                <label>Member Issued Book</label>
+                <input type="text" id="bookName" name="bookName" class="form-control" placeholder="Book Name" required />
+            </div>
+
+            <div class="form-group">
+                <label>Member Issued Book ISBN Number</label>
+                <input type="text" id="ISBN_Number" name="ISBN_Number" class="form-control" placeholder="Book Name" required />
+            </div>
+
+            <div class="form-group">
+                <label>Return Date</label>
+                <input type="text" id="returnDate" name="returnDate" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label>Days Elapsed</label>
+                <input type="text" id="daysElap" name="daysElap" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label>Fine</label>
+                <input type="text" id="fine" name="fine" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+
+                <input type="submit" value="Save" class="btn btn-success" required />
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script>
+        getMid();
+
+        function getMid() {
+
+            $("#memid").keyup(function (e) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/ReturnBook/GetMid?mid=' + $("#memid").val(),
+                    dataType: 'JSON',
+                    success: function (data) {
+                        console.log(data);
+                        $("#bookName").val(data[0].BookName);
+                        $("#ISBN_Number").val(data[0].ISBN);
+                        $("#returnDate").val(new Date(parseInt(data[0].DateReturned.substr(6))).toLocaleDateString());
+
+                        var elap = data[0].ElapsedDays;
+
+                        if (elap > 0) {
+                            var fine = elap * 100;
+                            $("#daysElap").val(elap);
+                            $("#fine").val(fine.toString());
+                        }
+                        else {
+                            $("#daysElap").val("0");
+                            $("#fine").val("0");
+                        }
+                    }
+                });
+            })
+        }
+    </script>
+}
